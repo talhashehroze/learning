@@ -1,40 +1,26 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\Job;
 
 Route::get('/', function () {
-    return view('home',[
-        'greeting'=>'hello'
+    return view('home', [
+        'greeting' => 'hello'
     ]);
 });
 
 
 Route::get('/jobs', function () {
-    return view('jobs',[
-        'jobs'=>[
-            [
-                'id'=> 1,
-                'title'=>'Director',
-                'salary'=>'$50,000'
-            ],
-            [
-                'id'=>2,
-                'title'=>'Programmer',
-                'salary'=>'$10,000'
-            ],
-            [
-                'id'=>3,
-                'title'=>'Teacher',
-                'salary'=>'$30,000'
-            ]
-        ]
-    ]);
+    $jobs = Job::all();
+    return view('jobs')->with(compact('jobs'));
 });
 
 Route::get('/job/{id}', function ($id) {
-    var_dump($id);
-    die;
-    return view('contact');
+
+
+    $job = Job::find($id);
+    $job = compact('job');
+    return view('job')->with($job);
 });
 
 Route::get('/contact', function () {
